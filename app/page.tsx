@@ -11,8 +11,6 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     other: frameTags,
   };
-
-  console.log("url", process.env.VERCEL_URL);
 }
 
 export default function Home() {

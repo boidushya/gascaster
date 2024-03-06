@@ -32,6 +32,8 @@ app.frame("/", (c) => {
 
   const hasAddress = address !== null;
 
+  console.log("url", process.env.VERCEL_URL);
+
   console.log(address);
 
   return c.res({
