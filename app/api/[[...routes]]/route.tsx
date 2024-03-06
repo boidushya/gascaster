@@ -2,12 +2,12 @@
 
 import { Button, Frog, TextInput } from "frog";
 import { neynar } from "frog/hubs";
-// import { neynar } from 'frog/hubs'
 import { handle } from "frog/next";
 import {
   type NeynarVariables,
   neynar as neynarMiddleWare,
 } from "frog/middlewares";
+import { getAddressFromUser } from "@/utils/functions";
 
 const app = new Frog<{ Variables: NeynarVariables }>({
   assetsPath: "/",
@@ -28,7 +28,12 @@ app.frame("/", (c) => {
   const { buttonValue, inputText, status } = c;
   const fruit = inputText || buttonValue;
 
-  console.log(c.var.interactor);
+  const address = getAddressFromUser(c.var.interactor);
+
+  const hasAddress = address !== null;
+
+  console.log(address);
+
   return c.res({
     image: (
       <div
