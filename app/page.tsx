@@ -6,8 +6,12 @@ import styles from "./page.module.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const frameTags = await getFrameMetadata(
-    `${`https://${process.env.VERCEL_URL}` || "http://localhost:3000"}/api`
+    `${process.env.VERCEL_URL || "http://localhost:3000"}/api`
   );
+
+  console.log("frameTags", frameTags);
+  console.log("process.env.VERCEL_URL", process.env.VERCEL_URL);
+
   return {
     other: frameTags,
   };
