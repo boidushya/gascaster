@@ -5,7 +5,7 @@ async function getTransactions(address: TAddress) {
 	&address=${address}
 	&startblock=0
 	&endblock=99999999
-	&apikey=${process.env["ETHERSCAN_API_KEY"]}`;
+	&apikey=${process.env.ETHERSCAN_API_KEY}`;
 
   const response = await fetch(endpoint);
   const data = await response.json();
@@ -16,6 +16,7 @@ export async function getTotalGasSpent(user: TAddress) {
   const txs = await getTransactions(user);
   console.log(txs);
 
+  // biome-ignore lint/suspicious/noExplicitAny: cba
   const amount = txs?.reduce((acc: any, tx: any) => {
     //
   }, 0);

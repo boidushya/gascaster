@@ -2,7 +2,7 @@
 
 import { Button, Frog, TextInput } from "frog";
 import { neynar } from "frog/hubs";
-import { handle } from "frog/next";
+import { getFrameMetadata, handle } from "frog/next";
 import {
   type NeynarVariables,
   neynar as neynarMiddleWare,
@@ -24,7 +24,7 @@ app.use(
   })
 );
 
-app.frame("/", (c) => {
+app.frame("/", async (c) => {
   const { buttonValue, inputText, status } = c;
   const fruit = inputText || buttonValue;
 
@@ -35,6 +35,13 @@ app.frame("/", (c) => {
   console.log("url", process.env.VERCEL_URL);
 
   console.log(address);
+
+  const frameTags = await getFrameMetadata(
+    `${process.env.VERCEL_URL || "http://localhost:3000"}/api`
+  );
+
+  console.log("frameTags", frameTags);
+  console.log("process.env.VERCEL_URL", process.env.VERCEL_URL);
 
   return c.res({
     image: (

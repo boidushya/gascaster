@@ -9,9 +9,6 @@ export async function generateMetadata(): Promise<Metadata> {
     `${process.env.VERCEL_URL || "http://localhost:3000"}/api`
   );
 
-  console.log("frameTags", frameTags);
-  console.log("process.env.VERCEL_URL", process.env.VERCEL_URL);
-
   return {
     other: frameTags,
   };
