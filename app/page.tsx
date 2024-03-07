@@ -4,10 +4,16 @@ import Image from "next/image";
 
 import styles from "./page.module.css";
 
+const getBaseUrl = () => {
+  if (process.env.NODE_ENV === "development") {
+    return "http://localhost:3000";
+  }
+
+  return process.env.VERCEL_PROD_URL;
+};
+
 export async function generateMetadata(): Promise<Metadata> {
-  const frameTags = await getFrameMetadata(
-    `${process.env.VERCEL_URL || "http://localhost:3000"}/api`
-  );
+  const frameTags = await getFrameMetadata(`${getBaseUrl()}/api`);
 
   return {
     other: frameTags,
