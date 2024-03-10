@@ -59,7 +59,7 @@ app.frame("/", async (c) => {
         return c.res({
           image: `${getBaseUrl()}/assets/home.png`,
           intents: [
-            <TextInput placeholder="Enter address (ENS Supported) or leave empty to check own ..." />,
+            <TextInput placeholder="Address / ENS / Leave empty ..." />,
             <Button value="address">Check</Button>,
           ],
           imageOptions,
@@ -75,7 +75,7 @@ app.frame("/", async (c) => {
     return c.res({
       image: `${getBaseUrl()}/assets/home.png`,
       intents: [
-        <TextInput placeholder="Enter address (ENS Supported) or leave empty to check own ..." />,
+        <TextInput placeholder="Address / ENS or Leave empty ..." />,
         <Button value="address">Check</Button>,
       ],
       imageOptions,
