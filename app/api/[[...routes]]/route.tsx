@@ -13,6 +13,7 @@ import {
   getBaseUrl,
   getGasTextContent,
   getL2GasData,
+  truncate,
 } from "@/utils/functions";
 
 const app = new Frog<{ Variables: NeynarVariables }>({
@@ -150,6 +151,27 @@ app.frame("/", async (c) => {
             <path d="M46.5356 10.2598V12.5836H39.0131V10.2598H46.5356ZM40.8934 23.0071V9.05648C40.8934 8.19893 41.0702 7.4852 41.4239 6.91534C41.7828 6.34548 42.2633 5.91945 42.8654 5.63729C43.4675 5.35513 44.1359 5.21405 44.8701 5.21405C45.3895 5.21405 45.8504 5.25554 46.254 5.33852C46.6571 5.42155 46.9551 5.49621 47.1487 5.56263L46.5519 7.88634C46.4251 7.8476 46.265 7.80889 46.0714 7.77015C45.8782 7.72587 45.6629 7.70377 45.4251 7.70377C44.8673 7.70377 44.4727 7.83932 44.2406 8.11041C44.0143 8.37597 43.9009 8.75772 43.9009 9.25566V23.0071H40.8934Z" />
           </svg>
         </div>
+        <p
+          style={{
+            boxShadow:
+              "inset 0 1.5px 1.5px 0 #ffffff1a,0 50px 100px -20px #32325d40,0 30px 60px -30px #0000004d",
+          }}
+          tw="absolute top-0 right-0 py-2 px-4 pr-5 m-4 text-2xl rounded-full bg-white/20 text-white flex items-center justify-center"
+        >
+          <span tw="text-green-500 mr-2.5">
+            {/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width={24}
+              height={24}
+              fill="currentColor"
+            >
+              <circle cx="12" cy="12" r="10" />
+            </svg>
+          </span>
+          {truncate(resolvedAddress)}
+        </p>
 
         <p tw="flex text-white text-5xl font-bold text-center leading-none mx-4 flex-wrap items-center justify-center">
           {content.term}'ve spent a total of{" "}
@@ -178,7 +200,6 @@ app.frame("/", async (c) => {
     ),
     intents: [
       <TextInput placeholder="Enter another address..." />,
-      <Button action={`/compare/${resolvedAddress}`}>Compare</Button>,
       <Button.Reset>Reset</Button.Reset>,
       <Button.Link href="https://warpcast.com/boi">Follow Me</Button.Link>,
     ],

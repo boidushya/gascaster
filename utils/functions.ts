@@ -69,6 +69,10 @@ async function getGasForChain(chainId: number | string) {
   return data.estimatedBaseFee;
 }
 
+export function truncate(address: string) {
+  return `${address.slice(0, 4)}...${address.slice(-4)}`;
+}
+
 export async function getL2GasData(): Promise<{ fee: number; name: string }[]> {
   const result = [];
   for (const chain of CHAINS_LIST) {
