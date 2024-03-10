@@ -25,7 +25,7 @@ export default function Home() {
             boxShadow:
               "inset 0 1.5px 1.5px 0 #ffffff1a,0 50px 100px -20px #32325d40,0 30px 60px -30px #0000004d",
           }}
-          className="flex flex-nowrap items-center gap-2 px-3 py-2 bg-[#472A91] rounded-xl font-medium pr-4"
+          className="flex flex-nowrap items-center gap-1 px-2 py-1 bg-[#472A91] rounded-xl font-medium pr-3"
         >
           <svg className="w-8 h-8" viewBox="0 0 1260 1260">
             <title className="hidden">Warpcast</title>
