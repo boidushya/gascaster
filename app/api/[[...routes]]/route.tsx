@@ -12,6 +12,7 @@ import {
   getAddressFromUser,
   getBaseUrl,
   getGasTextContent,
+  getL2GasData,
 } from "@/utils/functions";
 
 const app = new Frog<{ Variables: NeynarVariables }>({
@@ -30,9 +31,22 @@ app.use(
 );
 
 app.frame("/", async (c) => {
-  const { inputText, status } = c;
+  const { inputText } = c;
 
   let resolvedAddress = "";
+
+  const fontData = await fetch(`${getBaseUrl()}/assets/satoshi.ttf`).then(
+    (res) => res.arrayBuffer()
+  );
+
+  const imageOptions = {
+    fonts: [
+      {
+        name: "Satoshi",
+        data: fontData,
+      },
+    ],
+  };
 
   if (inputText) {
     if (/0x[a-zA-Z0-9]{40}/g.test(inputText.trim())) {
@@ -44,9 +58,10 @@ app.frame("/", async (c) => {
         return c.res({
           image: `${getBaseUrl()}/assets/home.png`,
           intents: [
-            <TextInput placeholder="Enter address (ENS Supported)..." />,
-            <Button value="address">Check Mine!</Button>,
+            <TextInput placeholder="Enter address or leave empty to check own (ENS Supported)..." />,
+            <Button value="address">Check</Button>,
           ],
+          imageOptions,
         });
       }
     }
@@ -62,6 +77,7 @@ app.frame("/", async (c) => {
         <TextInput placeholder="Enter address (ENS Supported)..." />,
         <Button value="address">Check Mine!</Button>,
       ],
+      imageOptions,
     });
   }
 
@@ -141,7 +157,7 @@ app.frame("/", async (c) => {
             style={{
               whiteSpace: "pre",
             }}
-            tw="text-purple-400"
+            tw="text-pink-300"
           >
             {" "}
             {content.totalGas} ETH{" "}
@@ -151,7 +167,7 @@ app.frame("/", async (c) => {
             style={{
               whiteSpace: "pre",
             }}
-            tw="text-purple-400"
+            tw="text-pink-300"
           >
             {" "}
             ${content.price}
@@ -162,9 +178,11 @@ app.frame("/", async (c) => {
     ),
     intents: [
       <TextInput placeholder="Enter another address..." />,
+      <Button action={`/compare/${resolvedAddress}`}>Compare</Button>,
       <Button.Reset>Reset</Button.Reset>,
-      <Button.Link href="https://boidushya.com">About me</Button.Link>,
+      <Button.Link href="https://warpcast.com/boi">Follow Me</Button.Link>,
     ],
+    imageOptions,
   });
 });
 

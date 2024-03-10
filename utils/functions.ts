@@ -2,6 +2,33 @@ import { formatGwei } from "viem";
 import client from "./client";
 import { normalize } from "viem/ens";
 
+const CHAINS_LIST = [
+  {
+    name: "Avalanche",
+    id: 43114,
+  },
+  {
+    name: "Base",
+    id: 8453,
+  },
+  {
+    name: "Linea",
+    id: 59144,
+  },
+  {
+    name: "ZKSync Era",
+    id: 324,
+  },
+  {
+    name: "Polygon",
+    id: 137,
+  },
+  {
+    name: "Optimism",
+    id: 10,
+  },
+];
+
 async function getTransactions(address: TAddress) {
   const endpoint = `https://api.etherscan.io/api
 	?module=account
@@ -22,6 +49,40 @@ async function getEthPrice() {
   const response = await fetch(endpoint);
   const data = await response.json();
   return data.result.ethusd;
+}
+
+async function getGasForChain(chainId: number | string) {
+  const Auth = Buffer.from(
+    `${process.env.INFURA_KEY}:${process.env.INFURA_SECRET}`
+  ).toString("base64");
+  const response = await fetch(
+    `https://gas.api.infura.io/networks/${chainId}/suggestedGasFees`,
+    {
+      headers: {
+        Authorization: `Basic ${Auth}`,
+      },
+    }
+  );
+
+  const data = await response.json();
+
+  return data.estimatedBaseFee;
+}
+
+export async function getL2GasData(): Promise<{ fee: number; name: string }[]> {
+  const result = [];
+  for (const chain of CHAINS_LIST) {
+    try {
+      const gas = await getGasForChain(chain.id);
+      result.push({
+        fee: gas,
+        name: chain.name,
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  }
+  return result;
 }
 
 export async function getAddressFromEns(ens: string) {
